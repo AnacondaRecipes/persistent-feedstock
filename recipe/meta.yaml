@@ -1,25 +1,26 @@
 {% set name = "persistent" %}
-{% set version = "4.6.4" %}
+{% set version = "5.1" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: f83f54355a44cf8ec38c29ce47b378a8c70444e9a745581dbb13d201a24cb546
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/persistent-{{ version }}.tar.gz
+  sha256: 97ccc2fa26cc9bdcc3be1fc65aa4f4f28afe5204c2d4fd24a67445908db7469b
 
 build:
   number: 0
-  detect_binary_files_with_prefix: False
-  script: python setup.py install --single-version-externally-managed --record=record.txt
+  script: pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
 
 requirements:
   build:
     - {{ compiler('c') }}
   host:
     - python
+    - pip
     - setuptools
+    - wheel
     - zope.interface
     - cffi
   run:
@@ -33,16 +34,22 @@ test:
     - persistent._timestamp
     - persistent.cPersistence
     - persistent.cPickleCache
+  commands:
+    - pip check
+  requires:
+    - pip
 
 about:
-  home: https://pypi.python.org/pypi/persistent
-  license: ZPL 2.1
+  home: https://github.com/zopefoundation/persistent/
+  license: BSD-3-Clause AND ZPL-2.1
   license_family: Other
-  license_file: LICENSE.txt
+  license_file:
+    - COPYRIGHT.txt
+    - LICENSE.txt
   summary: Translucent persistent objects
   description: |
     Persistent contains a generic persistence implementation for Python. It
     forms the core protocol for making objects interact "transparently" with
     a database such as the ZODB.
-  doc_url: http://persistent.readthedocs.io/en/latest/
-  doc_source_url: https://github.com/zopefoundation/persistent/blob/master/docs/index.rst
+  doc_url: https://persistent.readthedocs.io
+  dev_url: https://github.com/zopefoundation/persistent/
