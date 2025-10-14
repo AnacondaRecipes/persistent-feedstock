@@ -1,13 +1,13 @@
 {% set name = "persistent" %}
-{% set version = "5.1" %}
+{% set version = "6.3" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/persistent-{{ version }}.tar.gz
-  sha256: 97ccc2fa26cc9bdcc3be1fc65aa4f4f28afe5204c2d4fd24a67445908db7469b
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/persistent-{{ version }}.tar.gz
+  sha256: 01d94668b54d3d5fbab9eb41d81f41e3d8407a7233fd2a928a6417e4dc11d429
 
 build:
   number: 0
@@ -23,10 +23,12 @@ requirements:
     - wheel
     - zope.interface
     - cffi
+    - pycparser
   run:
     - python
     - zope.interface
     - cffi
+    - zope.deferredimport
 
 test:
   imports:
