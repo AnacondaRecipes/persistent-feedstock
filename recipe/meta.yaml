@@ -1,32 +1,38 @@
 {% set name = "persistent" %}
-{% set version = "5.1" %}
+{% set version = "6.3" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/persistent-{{ version }}.tar.gz
-  sha256: 97ccc2fa26cc9bdcc3be1fc65aa4f4f28afe5204c2d4fd24a67445908db7469b
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 01d94668b54d3d5fbab9eb41d81f41e3d8407a7233fd2a928a6417e4dc11d429
 
 build:
   number: 0
-  script: pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
+  skip: true  # [py<39]
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
 
 requirements:
   build:
+    - {{ stdlib('c') }}
     - {{ compiler('c') }}
   host:
-    - python
     - pip
+    - python
     - setuptools
     - wheel
-    - zope.interface
     - cffi
+    - zope
+    - zope.interface
+    - zope.deferredimport
   run:
     - python
-    - zope.interface
     - cffi
+    - zope
+    - zope.interface
+    - zope.deferredimport
 
 test:
   imports:
@@ -34,13 +40,17 @@ test:
     - persistent._timestamp
     - persistent.cPersistence
     - persistent.cPickleCache
-  commands:
-    - pip check
   requires:
     - pip
+    - pytest
+    - manuel
+  commands:
+    - pip check
+    # AssertionError: could not find my setup.py
+    - pytest -v --pyargs persistent.tests -k "not test_suite"
 
 about:
-  home: https://github.com/zopefoundation/persistent/
+  home: https://github.com/zopefoundation/persistent
   license: BSD-3-Clause AND ZPL-2.1
   license_family: Other
   license_file:
@@ -52,4 +62,4 @@ about:
     forms the core protocol for making objects interact "transparently" with
     a database such as the ZODB.
   doc_url: https://persistent.readthedocs.io
-  dev_url: https://github.com/zopefoundation/persistent/
+  dev_url: https://github.com/zopefoundation/persistent
