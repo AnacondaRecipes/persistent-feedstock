@@ -24,13 +24,11 @@ requirements:
     - setuptools
     - wheel
     - cffi
-    - zope
     - zope.interface
     - zope.deferredimport
   run:
     - python
     - cffi
-    - zope
     - zope.interface
     - zope.deferredimport
 
