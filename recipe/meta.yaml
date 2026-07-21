@@ -1,17 +1,17 @@
 {% set name = "persistent" %}
-{% set version = "6.3" %}
+{% set version = "6.7" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 01d94668b54d3d5fbab9eb41d81f41e3d8407a7233fd2a928a6417e4dc11d429
+  sha256: 956865ae06f2385fc5a643b0124f1976249b3b7dc2dab1e46d777f618f9874de
 
 build:
   number: 0
-  skip: true  # [py<39]
+  skip: true  # [py<310]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
 
 requirements:
@@ -24,13 +24,9 @@ requirements:
     - setuptools
     - wheel
     - cffi
-    - zope
-    - zope.interface
-    - zope.deferredimport
   run:
     - python
     - cffi
-    - zope
     - zope.interface
     - zope.deferredimport
 
