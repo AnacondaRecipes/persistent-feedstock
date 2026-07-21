@@ -24,8 +24,6 @@ requirements:
     - setuptools
     - wheel
     - cffi
-    - zope.interface
-    - zope.deferredimport
   run:
     - python
     - cffi
